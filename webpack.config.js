@@ -9,7 +9,6 @@ module.exports = {
         library: "calc",
         libraryTarget: "umd",
         globalObject: "this",
-        libraryExport: "default"
     },
     mode: "none",
     optimization: {

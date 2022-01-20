@@ -1,6 +1,6 @@
 {
   "name": "calc-tools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JavaScript的运算工具类方法",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,10 @@
   "keywords": [
     "javascript",
     "calc"
+  ],
+  "files": [
+    "index.js",
+    "dist/*.js"
   ],
   "author": "coderxc",
   "license": "ISC",
