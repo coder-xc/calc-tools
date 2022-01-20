@@ -8,7 +8,8 @@ module.exports = {
         filename: "[name].js",
         library: "calc",
         libraryTarget: "umd",
-        globalObject: "this"
+        globalObject: "this",
+        libraryExport: "default"
     },
     mode: "none",
     optimization: {
