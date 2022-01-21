@@ -1,6 +1,6 @@
 {
   "name": "calc-tools",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "JavaScript的运算工具类方法",
   "main": "index.js",
   "scripts": {
@@ -9,17 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coder-xc/Calc.git"
+    "url": "https://github.com/coder-xc/calc-tools.git"
   },
   "keywords": [
     "javascript",
-    "calc"
+    "calc",
+    "number",
+    "js",
+    "calculate"
   ],
   "files": [
     "index.js",
-    "dist/*.js"
+    "dist/*.js",
+    "LICENSE"
   ],
-  "author": "coderxc",
+  "author": "coder-xc",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.16.8",
