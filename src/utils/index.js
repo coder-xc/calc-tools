@@ -7,7 +7,7 @@
  */
 function toNonExponential(num) {
     const m = num.toExponential().match(/\d(?:\.(\d+))?e([+-]\d+)/);
-    return num.toFixed(Math.max(0, (m[1] || '').length - m[2]));
+    return num.toFixed(Math.max(0, (m[1] || "").length - m[2]));
 }
 
 /**
@@ -17,32 +17,23 @@ function toNonExponential(num) {
  * @returns {Object} 返回整数和倍数的对象 { number：11, times: 100 }
  */
 function parseToInteger(floatNumber) {
-    if (String(floatNumber).includes('%')) {
+    if (String(floatNumber).includes("%")) {
         floatNumber = handlePercentNumber(floatNumber);
     }
-    const obj = { number: 0, times: 1 };
-    if (Number.isInteger(floatNumber)) {
-        obj.number = floatNumber;
-        return obj;
-    }
+    // 该数字是整数
+    if (Number.isInteger(floatNumber)) return { number: floatNumber, times: 1 };
     // 将number类型转为字符串
     let numStr = `${floatNumber}`;
-    if (numStr.indexOf('-') !== -1) {
+    if (numStr.indexOf("-") !== -1) {
         numStr = toNonExponential(Number(numStr));
     }
     // 得到小数位的长度
-    let decimalLength = 0;
-    if (numStr.split('.')[1]) {
-        decimalLength = numStr.split('.')[1].length;
-    }
+    const decimalLength = numStr.split(".")[1]?.length || 0;
     // 得到小数位的倍数：0.11 => 小数位长度2，倍数100
-    const times = Math.pow(10, decimalLength);
-
+    const times = 10 ** decimalLength;
     // 算出整数值
-    obj.number = Number(toNonExponential(Number((numStr * times).toFixed())));
-    obj.times = times;
-
-    return obj;
+    const number = Number(toNonExponential(Number((numStr * times).toFixed())));
+    return { number, times };
 }
 
 /**
@@ -63,7 +54,7 @@ function handlerOperator(m, n, operator) {
     let result = null;
     let isNeedDivideTimes = false;
     switch (operator) {
-        case 'add': {
+        case "add": {
             if (number1Times === number2Times) {
                 // 小数位相同，直接整数相加
                 result = intNumber1 + intNumber2;
@@ -79,7 +70,7 @@ function handlerOperator(m, n, operator) {
             isNeedDivideTimes = true;
             break;
         }
-        case 'subtract': {
+        case "subtract": {
             if (number1Times === number2Times) {
                 // 小数位相同，直接整数相加
                 result = intNumber1 - intNumber2;
@@ -95,12 +86,12 @@ function handlerOperator(m, n, operator) {
             isNeedDivideTimes = true;
             break;
         }
-        case 'multiply': {
+        case "multiply": {
             result = (intNumber1 * intNumber2) / (number1Times * number2Times);
             isNeedDivideTimes = false;
             break;
         }
-        case 'divide': {
+        case "divide": {
             // 相除后的结果不是整数的话，递归调用 multiply 方法
             // 例如：=> 0.7 / 10 => (7 / 10) * (1 / 10) => 0.7 * 0.1
             const isNotInteger =
@@ -111,7 +102,7 @@ function handlerOperator(m, n, operator) {
                     this,
                     intNumber1 / intNumber2,
                     number2Times / number1Times,
-                    'multiply'
+                    "multiply"
                 );
             } else {
                 result = (intNumber1 / intNumber2) * (number2Times / number1Times);
@@ -120,7 +111,7 @@ function handlerOperator(m, n, operator) {
             break;
         }
 
-        case 'mod': {
+        case "mod": {
             // 被除数先变成整数后
             // 再根据被除数小数点的倍数，把除数也乘该倍数
             // 取余后的结果除这个倍数
@@ -143,17 +134,8 @@ function handlerOperator(m, n, operator) {
  * @param {Array} args 入参数组
  */
 function handlerInitNumber(args) {
-    if (this.value === undefined) {
-        if (this.isInit) {
-            this.value = args[0];
-            this.isInit = false;
-            args.shift();
-        }
-    } else {
-        if (args.length > 1) {
-            this.value = args[0];
-            args.shift();
-        }
+    if (typeof this !== "number") {
+        this.value = args.shift();
     }
 }
 
@@ -178,19 +160,12 @@ function getValue(args, operate) {
  * @returns 把百分号去掉后并除100的数据
  */
 function handlePercentNumber(percentNumber) {
-    if (percentNumber.includes('%')) {
-        return handlerOperator(
-            Number(
-                percentNumber.replace(/%/g, () => {
-                    return '';
-                })
-            ),
-            100,
-            'divide'
-        );
-    }
+    return percentNumber.includes("%")
+        ? handlerOperator(Number(percentNumber.replace(/%/g, "")), 100, "divide")
+        : percentNumber;
 }
 
 module.exports = {
-    getValue
-}
+    getValue,
+    handlerOperator
+};

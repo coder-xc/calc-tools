@@ -1,14 +1,14 @@
 const TerserPlugin = require("terser-webpack-plugin");
 module.exports = {
     entry: {
-        Calc: "./src/index.js",
-        "Calc.min": "./src/index.js"
+        calc: "./src/index.js",
+        "calc.min": "./src/index.js"
     },
     output: {
         filename: "[name].js",
         library: "calc",
         libraryTarget: "umd",
-        globalObject: "this",
+        globalObject: "this"
     },
     mode: "none",
     optimization: {
@@ -18,6 +18,21 @@ module.exports = {
             new TerserPlugin({
                 test: /\.min.js/ //提供一个正则，表示符合有min.js的就进行压缩
             })
+        ]
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    }
+                }
+            }
         ]
     }
 };

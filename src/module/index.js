@@ -1,24 +1,23 @@
-const { Calc } = require("../index.js");
+const Calc = require("./main");
+const calc = new Calc();
 
 function add(...args) {
-    return new Calc().add(...args);
+    return calc.add(...args);
 }
-
 function subtract(...args) {
-    return new Calc().subtract(...args);
+    return calc.subtract(...args);
 }
-
 function multiply(...args) {
-    return new Calc().multiply(...args);
+    return calc.multiply(...args);
 }
 function divide(...args) {
-    return new Calc().divide(...args);
+    return calc.divide(...args);
 }
 function percent(...args) {
-    return new Calc().percent(...args);
+    return calc.percent(...args);
 }
 function mod(...args) {
-    return new Calc().mod(...args);
+    return calc.mod(...args);
 }
 
 module.exports = {
@@ -28,4 +27,4 @@ module.exports = {
     divide,
     percent,
     mod
-}
+};

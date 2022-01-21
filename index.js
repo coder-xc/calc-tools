@@ -1,6 +1,6 @@
 "use strict";
 if (process.env.NODE_ENV === "production") {
-    module.exports = require("./dist/Calc.min");
+    module.exports = require("./dist/calc.min");
 } else {
-    module.exports = require("./dist/Calc");
+    module.exports = require("./dist/calc");
 }

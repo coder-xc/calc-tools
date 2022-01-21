@@ -1,1 +1,4 @@
-Calc工具类
+# JavaScript运算工具类
+
+
+Why use it
