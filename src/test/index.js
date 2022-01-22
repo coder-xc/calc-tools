@@ -1,3 +1,5 @@
-const { add } = require("../../dist/Calc");
+const { Calc, add } = require("../../dist/calc");
 
-console.log(add(1, 2).add(3))
+const calc = new Calc();
+console.log(calc.add(1, 2))
+console.log(add(1, 2))

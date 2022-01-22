@@ -1,4 +1,12 @@
-const { getValue, handlerOperator } = require("../utils/index");
+/**
+ * Calc Class core methods
+ * @date 2022-01-22
+ * @author coderxc<1440407551@qq.com>
+ */
+
+
+const { getValue } = require("../utils")
+const { handlerOperator } = require("../utils/tools");
 const { calculateFunNames } = require("../utils/constant");
 
 class Calculate {
@@ -39,4 +47,5 @@ class Calc extends Calculate {
     }
 }
 
-module.exports = Calc;
+module.exports = { add, subtract, divide, multiply, mod, percent } = new Calc()
+module.exports.Calc = Calc;

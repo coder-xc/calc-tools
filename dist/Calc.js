@@ -98,31 +98,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Calc = __webpack_require__(1);
-
-var _require = __webpack_require__(3),
-    add = _require.add,
-    subtract = _require.subtract,
-    multiply = _require.multiply,
-    divide = _require.divide,
-    percent = _require.percent,
-    mod = _require.mod;
-
-module.exports = {
-  Calc: Calc,
-  add: add,
-  subtract: subtract,
-  multiply: multiply,
-  divide: divide,
-  percent: percent,
-  mod: mod
-};
+module.exports = __webpack_require__(1);
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+var _Calc;
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -144,9 +128,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+/**
+ * Calc Class core methods
+ * @date 2022-01-22
+ * @author coderxc<1440407551@qq.com>
+ */
 var _require = __webpack_require__(2),
-    getValue = _require.getValue,
-    handlerOperator = _require.handlerOperator;
+    getValue = _require.getValue;
+
+var _require2 = __webpack_require__(3),
+    handlerOperator = _require2.handlerOperator;
+
+var _require3 = __webpack_require__(4),
+    calculateFunNames = _require3.calculateFunNames;
 
 var Calculate = /*#__PURE__*/function () {
   function Calculate() {
@@ -228,71 +222,79 @@ var Calc = /*#__PURE__*/function (_Calculate) {
     _classCallCheck(this, Calc);
 
     _this = _super.call(this);
-    Number.prototype.add = _this.add;
-    Number.prototype.percent = _this.percent;
-    Number.prototype.subtract = _this.subtract;
-    Number.prototype.divide = _this.divide;
-    Number.prototype.multiply = _this.multiply;
-    Number.prototype.mod = _this.mod;
+    calculateFunNames.forEach(function (item) {
+      return Number.prototype[item] = _this[item];
+    });
     return _this;
   }
 
   return _createClass(Calc);
 }(Calculate);
 
-module.exports = Calc;
+module.exports = (_Calc = new Calc(), add = _Calc.add, subtract = _Calc.subtract, divide = _Calc.divide, multiply = _Calc.multiply, mod = _Calc.mod, percent = _Calc.percent, _Calc);
+module.exports.Calc = Calc;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * calculate helper core methods
+ * @date 2022-01-22
+ * @author coderxc<1440407551@qq.com>
+ */
+var _require = __webpack_require__(3),
+    handlerOperator = _require.handlerOperator;
+/**
+ * 处理初始化的数据
+ * @param {Array} args 入参数组
+ */
+
+
+function handlerInitNumber(args) {
+  if (this && typeof this !== "number") {
+    this.value = args.shift();
+  }
+}
+/**
+ * 获取加减乘除的结果
+ * @param {Array} args 需要运算的数据
+ * @param {String} operate 操作符 add | subtract | multiply | divide
+ * @returns 运算后的结果
+ */
+
+
+function getValue(args, operate) {
+  var _this = this;
+
+  handlerInitNumber.call(this, args);
+  var value = args.reduce(function (pre, curr) {
+    return handlerOperator.call(_this, pre, curr, operate);
+  }, this.value ? this.value : this);
+  return Number(value);
+}
+
+module.exports = {
+  getValue: getValue
+};
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 /**
- * 把科学计数法的数据转成字符串显示的形式
- * eg: 0.00000001 Number类型的话 控制台输出就是 => 1e-8
- *     转为字符串的话就会输出 0.00000001
- * @param {Number} num 科学计数法的数字
- * @returns 处理好后的字符串数字
+ * calculate helper other methods
+ * @date 2022-01-22
+ * @author coderxc<1440407551@qq.com>
  */
-function toNonExponential(num) {
-  var m = num.toExponential().match(/\d(?:\.(\d+))?e([+-]\d+)/);
-  return num.toFixed(Math.max(0, (m[1] || "").length - m[2]));
-}
+
 /**
- * 将浮点数转为整数，并返回一个对象，对象包含整数和倍数
- * 例：0.11 =>  { number：11, times: 100 }
- * @param {Number} floatNumber
- * @returns {Object} 返回整数和倍数的对象 { number：11, times: 100 }
+ * 处理百分比数据
+ * @param {String} percentNumber 含百分比的数据
+ * @returns 把百分号去掉后并除100的数据
  */
-
-
-function parseToInteger(floatNumber) {
-  var _numStr$split$;
-
-  if (String(floatNumber).includes("%")) {
-    floatNumber = handlePercentNumber(floatNumber);
-  }
-
-  var obj = {
-    number: floatNumber,
-    times: 1
-  }; // 该数字是整数
-
-  if (Number.isInteger(floatNumber)) return obj; // 将number类型转为字符串
-
-  var numStr = "".concat(floatNumber);
-
-  if (numStr.indexOf("-") !== -1) {
-    numStr = toNonExponential(Number(numStr));
-  } // 得到小数位的长度
-
-
-  var decimalLength = ((_numStr$split$ = numStr.split(".")[1]) === null || _numStr$split$ === void 0 ? void 0 : _numStr$split$.length) || 0; // 得到小数位的倍数：0.11 => 小数位长度2，倍数100
-
-  var times = Math.pow(10, decimalLength); // 算出整数值
-
-  obj.number = Number(toNonExponential(Number((numStr * times).toFixed())));
-  obj.times = times;
-  return obj;
+function handlePercentNumber(percentNumber) {
+  return percentNumber.includes("%") ? handlerOperator(Number(percentNumber.replace(/%/g, "")), 100, "divide") : percentNumber;
 }
 /**
  * 对 m 和 n 进行运算
@@ -397,88 +399,71 @@ function handlerOperator(m, n, operator) {
   return result;
 }
 /**
- * 处理初始化的数据
- * @param {Array} args 入参数组
+ * 将浮点数转为整数，并返回一个对象，对象包含整数和倍数
+ * 例：0.11 =>  { number：11, times: 100 }
+ * @param {Number} floatNumber
+ * @returns {Object} 返回整数和倍数的对象 { number：11, times: 100 }
  */
 
 
-function handlerInitNumber(args) {
-  if (typeof this !== "number") {
-    this.value = args.shift();
-  }
+function parseToInteger(floatNumber) {
+  var _numStr$split$;
+
+  if (String(floatNumber).includes("%")) {
+    floatNumber = handlePercentNumber(floatNumber);
+  } // 该数字是整数
+
+
+  if (Number.isInteger(floatNumber)) return {
+    number: floatNumber,
+    times: 1
+  }; // 将number类型转为字符串
+
+  var numStr = "".concat(floatNumber);
+
+  if (numStr.indexOf("-") !== -1) {
+    numStr = toNonExponential(Number(numStr));
+  } // 得到小数位的长度
+
+
+  var decimalLength = ((_numStr$split$ = numStr.split(".")[1]) === null || _numStr$split$ === void 0 ? void 0 : _numStr$split$.length) || 0; // 得到小数位的倍数：0.11 => 小数位长度2，倍数100
+
+  var times = Math.pow(10, decimalLength); // 算出整数值
+
+  var number = Number(toNonExponential(Number((numStr * times).toFixed())));
+  return {
+    number: number,
+    times: times
+  };
 }
 /**
- * 获取加减乘除的结果
- * @param {Array} args 需要运算的数据
- * @param {String} operate 操作符 add | subtract | multiply | divide
- * @returns 运算后的结果
+ * 把科学计数法的数据转成字符串显示的形式
+ * eg: 0.00000001 Number类型的话 控制台输出就是 => 1e-8
+ *     转为字符串的话就会输出 0.00000001
+ * @param {Number} num 科学计数法的数字
+ * @returns 处理好后的字符串数字
  */
 
 
-function getValue(args, operate) {
-  var _this = this;
-
-  handlerInitNumber.call(this, args);
-  var value = args.reduce(function (pre, curr) {
-    return handlerOperator.call(_this, pre, curr, operate);
-  }, this.value ? this.value : this);
-  return Number(value);
-}
-/**
- * 处理百分比数据
- * @param {String} percentNumber 含百分比的数据
- * @returns 把百分号去掉后并除100的数据
- */
-
-
-function handlePercentNumber(percentNumber) {
-  return percentNumber.includes("%") ? handlerOperator(Number(percentNumber.replace(/%/g, "")), 100, "divide") : percentNumber;
+function toNonExponential(num) {
+  var m = num.toExponential().match(/\d(?:\.(\d+))?e([+-]\d+)/);
+  return num.toFixed(Math.max(0, (m[1] || "").length - m[2]));
 }
 
 module.exports = {
-  getValue: getValue,
-  handlerOperator: handlerOperator
+  handlePercentNumber: handlePercentNumber,
+  handlerOperator: handlerOperator,
+  parseToInteger: parseToInteger,
+  toNonExponential: toNonExponential
 };
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 4 */
+/***/ (function(module, exports) {
 
-var Calc = __webpack_require__(1);
-
-var calc = new Calc();
-
-function add() {
-  return calc.add.apply(calc, arguments);
-}
-
-function subtract() {
-  return calc.subtract.apply(calc, arguments);
-}
-
-function multiply() {
-  return calc.multiply.apply(calc, arguments);
-}
-
-function divide() {
-  return calc.divide.apply(calc, arguments);
-}
-
-function percent() {
-  return calc.percent.apply(calc, arguments);
-}
-
-function mod() {
-  return calc.mod.apply(calc, arguments);
-}
-
+var calculateFunNames = ["add", "subtract", "divide", "multiply", "percent", "mod"];
 module.exports = {
-  add: add,
-  subtract: subtract,
-  multiply: multiply,
-  divide: divide,
-  percent: percent,
-  mod: mod
+  calculateFunNames: calculateFunNames
 };
 
 /***/ })
