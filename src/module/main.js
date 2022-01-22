@@ -1,4 +1,5 @@
 const { getValue, handlerOperator } = require("../utils/index");
+const { calculateFunNames } = require("../utils/constant");
 
 class Calculate {
     constructor() {
@@ -34,12 +35,7 @@ class Calculate {
 class Calc extends Calculate {
     constructor() {
         super();
-        Number.prototype.add = this.add;
-        Number.prototype.percent = this.percent;
-        Number.prototype.subtract = this.subtract;
-        Number.prototype.divide = this.divide;
-        Number.prototype.multiply = this.multiply;
-        Number.prototype.mod = this.mod;
+        calculateFunNames.forEach(item => (Number.prototype[item] = this[item]));
     }
 }
 
