@@ -27,6 +27,7 @@ When JavaScript computes values with decimals, the problem of inaccurate precisi
 - **mod:** The remainder is the same as% in JavaScript, but this function will deal with the problem of inaccurate precision calculation
 
 <hr>
+
 ## How to use
 
 ### install
