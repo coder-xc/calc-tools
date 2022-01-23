@@ -1,6 +1,6 @@
 {
   "name": "calc-tools",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "JavaScript的运算工具类方法",
   "main": "index.js",
   "scripts": {

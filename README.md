@@ -22,9 +22,9 @@ When JavaScript computes values with decimals, the problem of inaccurate precisi
 
 - **divide:** Division: multiple parameters can be passed for operation. When there is only one parameter, if it is a chain call, it will operate with the result of the previous operation. If not, the passed in parameter will be returned.
 
-**percent:** To calculate the percentage, you can pass a parameter or no parameter. When no parameter is passed, it must be a chain call, which will convert the previous result into a percentage. Otherwise, an error will be thrown. When a parameter is passed, it will be converted to percentage.
+- **percent:** To calculate the percentage, you can pass a parameter or no parameter. When no parameter is passed, it must be a chain call, which will convert the previous result into a percentage. Otherwise, an error will be thrown. When a parameter is passed, it will be converted to percentage.
 
-**mod:** The remainder is the same as% in JavaScript, but this function will deal with the problem of inaccurate precision calculation
+- **mod:** The remainder is the same as% in JavaScript, but this function will deal with the problem of inaccurate precision calculation
 
 <hr>
 ## How to use
