@@ -98,15 +98,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
 module.exports = __webpack_require__(1);
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+"use strict";
 
-var _Calc;
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -232,12 +236,30 @@ var Calc = /*#__PURE__*/function (_Calculate) {
   return _createClass(Calc);
 }(Calculate);
 
-module.exports = (_Calc = new Calc(), add = _Calc.add, subtract = _Calc.subtract, divide = _Calc.divide, multiply = _Calc.multiply, mod = _Calc.mod, percent = _Calc.percent, _Calc);
+var _Calc = new Calc(),
+    add = _Calc.add,
+    subtract = _Calc.subtract,
+    divide = _Calc.divide,
+    multiply = _Calc.multiply,
+    mod = _Calc.mod,
+    percent = _Calc.percent;
+
+module.exports = {
+  add: add,
+  subtract: subtract,
+  divide: divide,
+  multiply: multiply,
+  mod: mod,
+  percent: percent
+};
 module.exports.Calc = Calc;
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /**
  * calculate helper core methods
@@ -281,7 +303,10 @@ module.exports = {
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /**
  * calculate helper other methods
@@ -472,7 +497,10 @@ module.exports = {
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 var calculateFunNames = ["add", "subtract", "divide", "multiply", "percent", "mod"];
 module.exports = {

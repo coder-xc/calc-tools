@@ -28,6 +28,7 @@
   "devDependencies": {
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.10",
+    "@babel/plugin-transform-strict-mode": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
     "terser-webpack-plugin": "^4.2.0",

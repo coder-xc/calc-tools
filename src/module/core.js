@@ -46,5 +46,7 @@ class Calc extends Calculate {
     }
 }
 
-module.exports = { add, subtract, divide, multiply, mod, percent } = new Calc()
+const { add, subtract, divide, multiply, mod, percent } = new Calc()
+
+module.exports = { add, subtract, divide, multiply, mod, percent }
 module.exports.Calc = Calc;
