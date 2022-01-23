@@ -1,9 +1,9 @@
+
 /**
  * calculate helper core methods
  * @date 2022-01-22
  * @author coderxc<1440407551@qq.com>
  */
-
 
 const { handlerOperator } = require("./tools");
 /**
@@ -11,7 +11,7 @@ const { handlerOperator } = require("./tools");
  * @param {Array} args 入参数组
  */
 function handlerInitNumber(args) {
-    if (this && typeof this !== "number") {
+    if (typeof this !== "number" && !(this instanceof Number)) {
         this.value = args.shift();
     }
 }
@@ -23,7 +23,7 @@ function handlerInitNumber(args) {
  * @returns 运算后的结果
  */
 function getValue(args, operate) {
-    handlerInitNumber.call(this, args);
+    handlerInitNumber.call(this, args)
     const value = args.reduce(
         (pre, curr) => handlerOperator.call(this, pre, curr, operate),
         this.value ? this.value : this

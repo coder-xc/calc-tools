@@ -149,5 +149,15 @@ function toNonExponential(num) {
     return num.toFixed(Math.max(0, (m[1] || "").length - m[2]));
 }
 
+/**
+ * 处理this指向问题
+ * @param {Array} args 运算数组
+ * @param {Object} that 目前的this指向
+ * @returns 返回正确的this指向
+ */
+function handleThis(args, that) {
+    return that ? that : args.shift()
+}
 
-module.exports = { handlePercentNumber, handlerOperator, parseToInteger, toNonExponential }
+
+module.exports = { handlePercentNumber, handlerOperator, parseToInteger, toNonExponential, handleThis }
