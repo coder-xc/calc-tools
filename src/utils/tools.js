@@ -15,7 +15,6 @@ function handlePercentNumber(percentNumber) {
         : percentNumber;
 }
 
-
 /**
  * 对 m 和 n 进行运算
  * @param {Number} n 数字2
@@ -92,10 +91,19 @@ function handlerOperator(m, n, operator) {
         }
 
         case "mod": {
-            // 被除数先变成整数后
-            // 再根据被除数小数点的倍数，把除数也乘该倍数
-            // 取余后的结果除这个倍数
-            result = (intNumber1 % (n * maxTimes)) / maxTimes;
+            if (number1Times > number2Times) {
+                // number1小数位比number2小数位多
+                // 将number2的倍数补上再取余
+                result = (intNumber1 % (intNumber2 * maxTimes)) / maxTimes;
+            } else if (number2Times > number1Times) {
+                // number2小数位比number1小数位多
+                // 将number1的倍数补上再取余
+                result = ((intNumber1 * maxTimes) % intNumber2) / maxTimes;
+            } else {
+                // number2小数位和number1小数位一样多
+                // 直接取余，然后除倍数
+                result = (intNumber1 % intNumber2) / maxTimes;
+            }
             isNeedDivideTimes = false;
             break;
         }
@@ -108,7 +116,6 @@ function handlerOperator(m, n, operator) {
     }
     return result;
 }
-
 
 /**
  * 将浮点数转为整数，并返回一个对象，对象包含整数和倍数
@@ -136,7 +143,6 @@ function parseToInteger(floatNumber) {
     return { number, times };
 }
 
-
 /**
  * 把科学计数法的数据转成字符串显示的形式
  * eg: 0.00000001 Number类型的话 控制台输出就是 => 1e-8
@@ -156,8 +162,13 @@ function toNonExponential(num) {
  * @returns 返回正确的this指向
  */
 function handleThis(args, that) {
-    return that ? that : args.shift()
+    return that ? that : args.shift();
 }
 
-
-module.exports = { handlePercentNumber, handlerOperator, parseToInteger, toNonExponential, handleThis }
+module.exports = {
+    handlePercentNumber,
+    handlerOperator,
+    parseToInteger,
+    toNonExponential,
+    handleThis
+};
