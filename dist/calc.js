@@ -406,10 +406,20 @@ function handlerOperator(m, n, operator) {
 
     case "mod":
       {
-        // 被除数先变成整数后
-        // 再根据被除数小数点的倍数，把除数也乘该倍数
-        // 取余后的结果除这个倍数
-        result = intNumber1 % (n * maxTimes) / maxTimes;
+        if (number1Times > number2Times) {
+          // number1小数位比number2小数位多
+          // 将number2的倍数补上再取余
+          result = intNumber1 % (intNumber2 * maxTimes) / maxTimes;
+        } else if (number2Times > number1Times) {
+          // number2小数位比number1小数位多
+          // 将number1的倍数补上再取余
+          result = intNumber1 * maxTimes % intNumber2 / maxTimes;
+        } else {
+          // number2小数位和number1小数位一样多
+          // 直接取余，然后除倍数
+          result = intNumber1 % intNumber2 / maxTimes;
+        }
+
         isNeedDivideTimes = false;
         break;
       }
